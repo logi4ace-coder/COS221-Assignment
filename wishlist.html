@@ -6,45 +6,74 @@
     <title>Wishlist</title>
     
 
-    <link rel="stylesheet" href="wishlist.css">
-    
-    
+    <link rel="stylesheet" href="css/wishlist.css">
+ 
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
     
+    <style>
+        .theme-select {
+            margin-left: 400px;
+        }
+        
+        .theme-select button {
+            background-color: #42ff33;
+            color: rgb(255, 255, 255);
+            border-radius: 5px;
+            padding: 5px;
+            border-color: #dfe1e5;
+            cursor: pointer;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 600;
+            min-width: 60px;
+            transition: all 0.2s ease;
+        }
+        
+        .theme-select button:hover {
+            padding: 7px;
+            color: #42ff33;
+            background-color: white;
+        }
+        
+    
+        .theme-select button.active {
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 5px rgba(52, 197, 39, 0.5);
+        }
 
+    </style>
 </head>
 <body>
-   
     <header>
         <div class="logo">
-            
             COMPARE<span>X</span>IT
         </div>
         <nav>
             <ul>
-                <li><a href="index.html" class="active">Products</a></li>
-                <li><a href="wishlist.html">Wishlist</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="signup.html">Sign_Up</a></li>
+                <li><a href="index.html">Products</a></li>
+                <li><a href="login.html">Log-in</a></li>
+                <li><a href="Signin.html">Sign-in</a></li>
+                <li><a href="wishlist.html" class="active">Wishlist</a></li>
             </ul>
         </nav>
+        <div class="theme-select">
+            <button id="theme-Dack">Dark</button>
+            <button id="theme-Light">Light</button>
+        </div>
     </header>
-
-   
-    <div class="name">
-        <div class="heart"></div>
-        <h1>My Wishlist</h1>
-    </div>
-
-
     
-    <div class="wishlist-container">
+    <main class="wishlist-container">
+        <div class="name">
+            <div class="heart"></div>
+            <h1>My Wishlist</h1>
+        </div>
         
-        <p>Your wishlist is currently empty.</p>
-    </div>
-
+        <div class="empty-wishlist">
+            <p>Your wishlist is currently empty.</p>
+        </div>
+    </main>
     
+    <script src="script/theme2.js" defer></script>
 </body>
 </html>

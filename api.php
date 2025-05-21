@@ -164,7 +164,7 @@ class UserAPI {
 
     public function loginUser($data) {
         $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-        $secretKey = "6LeTSjYrAAAAAKqd_rfuQ6CxS7-Iu5pOO7_NHMfL";
+        $secretKey = "";
         $url = "https://www.google.com/recaptcha/api/siteverify";
 
         $recaptchaData = [

@@ -1,20 +1,17 @@
-document.addEventListener("DOMContentLoaded", function (){
-
-        const darkButton = document.getElementById('theme-Dack');
-        darkButton.addEventListener('click', function() {
-            document.body.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark');
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    const darkButton = document.getElementById('theme-Dark');
+    const lightButton = document.getElementById('theme-Light');
     
-        const lightButton = document.getElementById('theme-Light');
-        lightButton.addEventListener('click', function() {
-            document.body.classList.remove('dark-theme');
-            localStorage.setItem('theme', 'light');
-        });
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
     
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-theme');
-        }
+    darkButton.addEventListener('click', () => {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    });
+    
+    lightButton.addEventListener('click', () => {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+    });
 });
-

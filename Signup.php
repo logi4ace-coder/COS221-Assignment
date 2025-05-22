@@ -33,16 +33,16 @@
                 <h3>Sign In</h3>
 
                 <label for="name-input">Name: </label>
-                <input id="name-input" type="text" >
+                <input id="name-input" type="text" name="name" value="name" >
 
                 <label for="surname-input">Surname: </label>
-                <input id="surname-input" type="text" >
+                <input id="surname-input" type="text" name="surname" value="surname" >
 
                 <label for="email-input">Email: </label>
-                <input id="email-input" type="email"  required>
+                <input id="email-input" type="email" name="email" value="email" required>
 
                 <label for="pass-input">Password: </label>
-                <input id="pass-input" type="password"  required>
+                <input id="pass-input" type="password" name="password"  value="password" required>
 
                 <label>UserType: </label>
                 <select id="user-type">

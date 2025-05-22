@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css" >
     <title>Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+
+    </style>
 </head>
 <body>
-
     <header>
         <div class="header-content">
             <div class="logo">
-            
                 COMPARE<span>X</span>IT
             </div>
             
@@ -25,19 +27,15 @@
                     </div>
                 </div>
             </div>
-           <div class="nav-links">
+            
+            <div class="nav-links">
                 <ul>
                     <li><a href="index.html" class="active">Products</a></li>
-                    <li><a href="login.html" >Log-in</a></li>
-                    <li><a href="Signin.html" >Sign-in</a></li>
-                    <li><a href="wishlist.html" >Wishlist</a></li>
+                    <li><a href="login.html">Log-in</a></li>
+                    <li><a href="Signin.html">Sign-in</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
                 </ul>
             </div>
-            <div class="theme-select">
-                <button id="theme-Dack">Dack</button>
-                <button id="theme-Light">Light</button>
-            </div>
-            
         </div>
     </header>
 
@@ -89,24 +87,24 @@
             <div class="filter-section">
                 <h3>Currency</h3>
                 <div class="filter-option">
-                    <input type="radio" name="currency" checked>
-                    <label for="usd">R (ZAR)</label>
+                    <input type="radio" name="currency" id="zar" checked>
+                    <label for="zar">R (ZAR)</label>
                 </div>
                 <div class="filter-option">
-                    <input type="radio" name="currency" >
-                    <label for="eur">USA ($)</label>
+                    <input type="radio" name="currency" id="usd">
+                    <label for="usd">USA ($)</label>
                 </div>
             </div>
 
             <div class="filter-section">
                 <h3>Shop</h3>
                 <div class="filter-option">
-                    <input type="checkbox" class="store">
-                    <label for="shop-amazon">Mike</label>
+                    <input type="checkbox" id="shop-mike1">
+                    <label for="shop-mike1">Mike</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" class="store">
-                    <label for="shop-amazon">Mike</label>
+                    <input type="checkbox" id="shop-mike2">
+                    <label for="shop-mike2">Mike</label>
                 </div>
             </div>
 
@@ -135,35 +133,62 @@
             </div>
         </aside>
 
+        <main class="container-products">
+            <div class="pro-show">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x180" alt="product" class="prod-img">
+                    <div class="pro-info">
+                        <p class="pro-name">Product Name</p>
+                        <div class="rating">★★★★★</div>
+                        <div class="pro-price">R 232</div>
+                        <div class="pro-store">Mike</div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x180" alt="product" class="prod-img">
+                    <div class="pro-info">
+                        <p class="pro-name">Product Name</p>
+                        <div class="rating">★★★★☆</div>
+                        <div class="pro-price">R 199</div>
+                        <div class="pro-store">Mike</div>
+                    </div>
+                </div>
 
-    <main class="container-products">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x180" alt="product" class="prod-img">
+                    <div class="pro-info">
+                        <p class="pro-name">Product Name</p>
+                        <div class="rating">★★★★★</div>
+                        <div class="pro-price">R 299</div>
+                        <div class="pro-store">Mike</div>
+                    </div>
+                </div>
 
-        <div class="pro-show">
-
-            <div class="product-card">
-                <img src="" alt="product" class="prod-img">
-                <div class="pro-info">
-                <p class="pro-name">product name</p>
-                <div class="rating">★★★★★</div>
-                    <div class="pro-price">$232</div>
-                    <div class="pro-store">Mike</div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x180" alt="product" class="prod-img">
+                    <div class="pro-info">
+                        <p class="pro-name">Product Name</p>
+                        <div class="rating">★★★☆☆</div>
+                        <div class="pro-price">R 159</div>
+                        <div class="pro-store">Mike</div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="product-card">
-                <img src="" alt="product" class="prod-img">
-                <div class="pro-info">
-                <p>product name</p>
-                <div class="rating">★★★★★</div>
-                    <div class="pro-price">$232</div>
-                    <div class="pro-store">Mike</div>
-                </div>
-            </div>
-
-        </div>
-    </main>
+        </main>
     </div>
 
- <script src="script/theme.js" defer></script>
+    <footer class="footer"> 
+        <div class="footer-info">
+            @2025 COMPARE<span>X</span>IT. All rights reserved.
+        </div>
+    
+        <div class="theme-select">
+            <button id="theme-Dark"><i class="fas fa-moon"></i> Dark</button>
+            <button id="theme-Light"><i class="fas fa-sun"></i> Light</button>
+        </div>
+    </footer>
+
+    <script src="script/theme.js"></script>
 </body>
 </html>

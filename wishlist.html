@@ -1,48 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishlist</title>
     
-
-    <link rel="stylesheet" href="css/wishlist.css">
- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/wishlist.css">
     
-    <style>
-        .theme-select {
-            margin-left: 400px;
-        }
-        
-        .theme-select button {
-            background-color: #42ff33;
-            color: rgb(255, 255, 255);
-            border-radius: 5px;
-            padding: 5px;
-            border-color: #dfe1e5;
-            cursor: pointer;
-            font-family: 'Barlow', sans-serif;
-            font-weight: 600;
-            min-width: 60px;
-            transition: all 0.2s ease;
-        }
-        
-        .theme-select button:hover {
-            padding: 7px;
-            color: #42ff33;
-            background-color: white;
-        }
-        
-    
-        .theme-select button.active {
-            border: 2px solid #ffffff;
-            box-shadow: 0 0 5px rgba(52, 197, 39, 0.5);
-        }
-
-    </style>
 </head>
 <body>
     <header>
@@ -57,10 +25,6 @@
                 <li><a href="wishlist.html" class="active">Wishlist</a></li>
             </ul>
         </nav>
-        <div class="theme-select">
-            <button id="theme-Dack">Dark</button>
-            <button id="theme-Light">Light</button>
-        </div>
     </header>
     
     <main class="wishlist-container">
@@ -73,7 +37,18 @@
             <p>Your wishlist is currently empty.</p>
         </div>
     </main>
+
+    <footer class="footer"> 
+        <div class="footer-info">
+            @2025 COMPARE<span>X</span>IT. All rights reserved.
+        </div>
     
-    <script src="script/theme2.js" defer></script>
+        <div class="theme-select">
+            <button id="theme-Dark"><i class="fas fa-moon"></i> Dark</button>
+            <button id="theme-Light"><i class="fas fa-sun"></i> Light</button>
+        </div>
+    </footer>
+    
+    <script src="script/theme.js"></script>
 </body>
 </html>

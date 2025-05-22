@@ -364,17 +364,16 @@ input:required:invalid {
                     <a href="forgot.php">Forgot Password?</a> 
                 </div>
                 <input type="hidden" name="type" value="Login">
-
+                <div class="g-recaptcha" data-sitekey="6LeTSjYrAAAAAPWLz1dlJ3D1nriKFJF7oOm7irit"></div>
                 <button type="submit" class="burr">Log In</button>
             </form>
 
             <div class="divider">OR</div>
             
             <div class="NEW">
-                <p>New Here? <a href="../../PA3/php/signup.php" target="_blank">Create an Account</a></p>
+                <p>New Here? <a href="signup.php" target="_blank">Create an Account</a></p>
             </div>
             
-           
         </div>
     </div>
 </div>

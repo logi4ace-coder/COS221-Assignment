@@ -111,6 +111,10 @@
                         <div class="alert-user"> alert userEmail</div>
                     </div>
                 </div>
+
+                <div class="Notify-btn">
+                    <button id="notify" class="btn btn-primary" >Notify</button>
+                </div>
             </div>
         </div>
     </div>

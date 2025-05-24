@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/index.css" >
     <link rel="stylesheet" href="css/signin.css" >
     <title>Sign In</title>
 </head>
 <body>
 
-    <header>
-        <div class="header-content">
+    <header class="header">
             <div class="logo">
             
                 COMPARE<span>X</span>IT
@@ -24,12 +24,6 @@
                     <li><a href="wishlist.html" >Wishlist</a></li>
                 </ul>
             </div>
-            <div class="theme-select">
-                <button id="theme-Dack">Dack</button>
-                <button id="theme-Light">Light</button>
-            </div>
-            
-        </div>
     </header>
 
     <main class="container-form">
@@ -39,21 +33,23 @@
                 <h3>Sign In</h3>
 
                 <label for="name-input">Name: </label>
-                <input id="name-input" type="text" >
+                <input id="name-input" type="text" name="name" value="name" >
 
                 <label for="surname-input">Surname: </label>
-                <input id="surname-input" type="text" >
+                <input id="surname-input" type="text" name="surname" value="surname" >
 
                 <label for="email-input">Email: </label>
-                <input id="email-input" type="email"  required>
+                <input id="email-input" type="email" name="email" value="email" required>
 
                 <label for="pass-input">Password: </label>
-                <input id="pass-input" type="password"  required>
+                <input id="pass-input" type="password" name="password"  value="password" required>
 
                 <label>UserType: </label>
                 <select id="user-type">
-                    <option>Customer</option>
-                    <option>Stuff</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="" disabled selected>I am logging to ....</option>
+                    <option value="Register">Register</option>
                 </select>
 
                 <button id="submit-btn" type="submit">Submit</button>
@@ -62,6 +58,17 @@
         </div>
             
     </main>
+
+    <footer class="footer"> 
+        <div class="footer-info">
+            @2025 COMPARE<span>X</span>IT. All rights reserved.
+        </div>
+    
+        <div class="theme-select">
+            <button id="theme-Dark"><i class="fas fa-moon"></i> Dark</button>
+            <button id="theme-Light"><i class="fas fa-sun"></i> Light</button>
+        </div>
+    </footer>
 
      <script src="script/theme.js" defer></script>
 </body>

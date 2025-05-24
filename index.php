@@ -34,7 +34,7 @@
                     <li><a href="wishlist.html" >Wishlist</a></li>
                     <li><a href="Dashboard.html" >Dashboard</a></li>
                     <li><a href="Signin.html" class="active" >Sign-up</a></li>
-                    <li><a href="login.html" >Log-in</a></li>>
+                    <li><a href="login.html" >Log-in</a></li>
                 </ul>
             </div>
         </div>

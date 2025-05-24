@@ -11,6 +11,7 @@
     --nav-text: #4d4a4a;
     --nav-hover: #42ff33;
     --button-bg: #42ff33;
+    --border-color: #e0e0e0;
     --button-text: #ffffff;
     --button-hover-bg: #ffffff;
     --button-hover-text: #42ff33;
@@ -96,8 +97,7 @@ nav ul li a {
     transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 nav ul li a:hover {
-    color: var(--nav-hover);
-    text-decoration: underline;
+    color: var(--accent-color);
 }
 .active {
     color: var(--primary-color) !important;

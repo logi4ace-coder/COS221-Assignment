@@ -137,11 +137,11 @@ header {
 }
 .nav-links ul li a:hover {
     background-color: var(--border-color);
+    color: var(--accent-color);
 }
 .nav-links ul li a.active {
     color: var(--accent-color);
 }
-
 
 .side-bar {
     width: 260px;

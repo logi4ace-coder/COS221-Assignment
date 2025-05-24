@@ -76,11 +76,13 @@ body {
     transition: color 0.3s;
 }
 
+.nav-links ul li a:hover {
+    background-color: var(--border-color);
+}
+
 .nav-links a:hover {
     color: var(--accent-color);
 }
-
-
 
 .container-form {
     display: flex;

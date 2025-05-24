@@ -1,4 +1,11 @@
+<?php
+session_start();
 
+$errors = $_SESSION['errors'] ?? [];
+$formInput = $_SESSION['form-input'] ?? [];
+
+unset($_SESSION['errors'], $_SESSION['form-input']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -371,9 +378,10 @@ input:required:invalid {
             <div class="divider">OR</div>
             
             <div class="NEW">
-                <p>New Here? <a href="signup.php" target="_blank">Create an Account</a></p>
+                <p>New Here? <a href="../../PA3/php/signup.php" target="_blank">Create an Account</a></p>
             </div>
             
+           
         </div>
     </div>
 </div>

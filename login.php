@@ -1,4 +1,11 @@
+<?php
+session_start();
 
+$errors = $_SESSION['errors'] ?? [];
+$formInput = $_SESSION['form-input'] ?? [];
+
+unset($_SESSION['errors'], $_SESSION['form-input']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -364,7 +371,7 @@ input:required:invalid {
                     <a href="forgot.php">Forgot Password?</a> 
                 </div>
                 <input type="hidden" name="type" value="Login">
-
+                <div class="g-recaptcha" data-sitekey="6LeTSjYrAAAAAPWLz1dlJ3D1nriKFJF7oOm7irit"></div>
                 <button type="submit" class="burr">Log In</button>
             </form>
 

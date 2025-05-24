@@ -18,10 +18,10 @@
            <div class="nav-links">
                 <ul>
                     <li><a href="index.html" >Products</a></li>
-                    <li><a href="login.html" >Log-in</a></li>
-                    <li><a href="Signin.html" class="active" >Sign-in</a></li>
                     <li><a href="wishlist.html" >Wishlist</a></li>
                     <li><a href="Dashboard.html" >Dashboard</a></li>
+                    <li><a href="Signin.html" class="active" >Sign-up</a></li>
+                    <li><a href="login.html" >Log-in</a></li>
                 </ul>
             </div>
     </header>
@@ -32,7 +32,7 @@
         <div class="header-section">
             <div class="welcome-section">
                 <h1>Welcome back, Manager!</h1>
-                <div class="business-name">Business: <span id="businessName">Compony Name.</span></div>
+                <div class="business-name">Company Name:<span id="businessName">Name- </span></div>
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary" onclick="openModal('businessModal')">Update Business Name</button>

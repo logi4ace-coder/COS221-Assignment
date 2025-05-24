@@ -19,10 +19,10 @@
            <div class="nav-links">
                 <ul>
                     <li><a href="index.html" >Products</a></li>
-                    <li><a href="login.html" >Log-in</a></li>
-                    <li><a href="Signin.html" class="active" >Sign-in</a></li>
                     <li><a href="wishlist.html" >Wishlist</a></li>
                     <li><a href="Dashboard.html" >Dashboard</a></li>
+                    <li><a href="Signin.html" class="active" >Sign-up</a></li>
+                    <li><a href="login.html" >Log-in</a></li>
                 </ul>
             </div>
     </header>

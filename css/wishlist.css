@@ -1,6 +1,6 @@
 :root {
     --primary-color: #42ff33;
-    --bg-color: #fff5f7;
+    --bg-color: #ffffff;
     --text-color: #333333;
     --header-bg: #ffffff;
     --header-border: #42ff33;
@@ -60,7 +60,7 @@ header {
     right: 0;
     background-color: var(--header-bg);
     z-index: 1000;
-    border-bottom: 2px solid var(--header-border);
+    border-bottom: 2px solid var(--bg-color);
     box-shadow: 1px 1px 5px rgba(15, 23, 42, 0.5);
 }
 

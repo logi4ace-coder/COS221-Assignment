@@ -372,6 +372,7 @@ input:required:invalid {
                 </div>
                 <input type="hidden" name="type" value="Login">
                 <div class="g-recaptcha" data-sitekey="6LeTSjYrAAAAAPWLz1dlJ3D1nriKFJF7oOm7irit"></div>
+
                 <button type="submit" class="burr">Log In</button>
             </form>
 

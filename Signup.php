@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE php>
+<php lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +18,11 @@
             
            <div class="nav-links">
                 <ul>
-                    <li><a href="index.html" >Products</a></li>
-                    <li><a href="wishlist.html" >Wishlist</a></li>
-                    <li><a href="Dashboard.html" >Dashboard</a></li>
-                    <li><a href="Signin.html" class="active" >Sign-up</a></li>
-                    <li><a href="login.html" >Log-in</a></li>
+                    <li><a href="index.php" >Products</a></li>
+                    <li><a href="wishlist.php" >Wishlist</a></li>
+                    <li><a href="Dashboard.php" >Dashboard</a></li>
+                    <li><a href="Signin.php" class="active" >Sign-up</a></li>
+                    <li><a href="login.php" >Log-in</a></li>
                 </ul>
             </div>
     </header>
@@ -73,4 +73,4 @@
 
      <script src="script/theme.js" defer></script>
 </body>
-</html>
+</php>

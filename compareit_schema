@@ -1,0 +1,129 @@
+CREATE TABLE Users (
+    UserID INT(11) PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    UserType ENUM('customer', 'admin') NOT NULL DEFAULT 'customer',
+    PasswordHash VARCHAR(255) NOT NULL,
+    ApiKey VARCHAR(100) NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    salt1 VARCHAR(32) NOT NULL,
+    salt2 VARCHAR(16) NOT NULL,
+    UNIQUE (Email),
+    UNIQUE (ApiKey),
+    INDEX idx_email (Email)
+);
+
+CREATE TABLE Products (
+    ProductID INT(11) PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Brand VARCHAR(100) NOT NULL,
+    Material VARCHAR(100) NOT NULL,
+    Description TEXT NOT NULL,
+    Rating INT(11) NOT NULL,
+    Color VARCHAR(50) NOT NULL,
+    INDEX idx_rating (Rating)
+);
+
+CREATE TABLE Listings (
+    ListingID INT(11) PRIMARY KEY,
+    ProductID INT(11) NOT NULL,
+    RetailerID INT(11) NOT NULL,
+    ProductURL VARCHAR(255) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    LastUpdated DATETIME NOT NULL,
+    Size ENUM('S', 'M', 'L', 'XL') DEFAULT 'M',
+    Stock ENUM('in_stock', 'out_of_stock') NOT NULL,
+    Currency ENUM('USD', 'ZAR', 'EUR') NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (RetailerID) REFERENCES Retailers(RetailerID),
+    INDEX (ProductID),
+    INDEX (RetailerID),
+    INDEX idx_product_retailer (ProductID, RetailerID)
+);
+
+CREATE TABLE Retailers (
+    RetailerID INT(11) PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Country VARCHAR(100) NOT NULL,
+    Type ENUM('online', 'physical', 'hybrid') NOT NULL,
+    WebsiteURL VARCHAR(255),
+    StoreAddress VARCHAR(255),
+    IsActive TINYINT(1) NOT NULL DEFAULT 1,
+    ManagerUserID INT(11),
+    FOREIGN KEY (ManagerUserID) REFERENCES Users(UserID),
+    UNIQUE (Name),
+    INDEX fk_manager_user (ManagerUserID)
+);
+
+CREATE TABLE ProductImages (
+    ImageID INT(11) PRIMARY KEY,
+    ProductID INT(11) NOT NULL,
+    IsPrimary TINYINT(1) NOT NULL,
+    ImageURL VARCHAR(255) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    INDEX (ProductID)
+);
+
+CREATE TABLE Reviews (
+    UserID INT(11) NOT NULL,
+    ProductID INT(11) NOT NULL,
+    ReviewText TEXT NOT NULL,
+    ReviewDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Rating INT(11) NOT NULL,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    INDEX idx_product_user (ProductID, UserID)
+);
+
+CREATE TABLE Tags (
+    TagID INT(11) PRIMARY KEY,
+    TagText VARCHAR(50) NOT NULL,
+    UNIQUE (TagText)
+);
+
+CREATE TABLE ProductsTags (
+    Id INT(11) PRIMARY KEY,
+    ProductID INT(11) NOT NULL,
+    TagID INT(11) NOT NULL,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (TagID) REFERENCES Tags(TagID),
+    INDEX idx_product_tag (ProductID, TagID)
+);
+
+CREATE TABLE Wishlists (
+    UserID INT(11) NOT NULL,
+    ProductID INT(11) NOT NULL,
+    DateAdded DATE NOT NULL,
+    DesiredPrice DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE TABLE UserPreferences (
+    Id INT(11) PRIMARY KEY,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Theme ENUM('light', 'dark') NOT NULL DEFAULT 'light',
+    FilterPrice VARCHAR(50) NOT NULL,
+    FilterSort ENUM('price_asc', 'price_desc', 'rating_desc', 'rating_asc') NOT NULL,
+    FilterBrand VARCHAR(100) NOT NULL,
+    FilterCurrency VARCHAR(10) NOT NULL,
+    UserID INT(11) NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    INDEX (UserID)
+);
+
+CREATE TABLE PriceAlerts (
+    UserID INT(11) NOT NULL,
+    ProductID INT(11) NOT NULL,
+    AlertStatus TINYINT(1) NOT NULL,
+    NotificationMethod ENUM('email', 'sms') NOT NULL,
+    CreationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    TargetPrice DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);

@@ -236,3 +236,66 @@ nav ul li a:hover {
         left: 20px;
     }
 }
+body.dark-theme
+{
+    background-color: #202124;
+    color: white;
+}
+
+body.dark-theme .product-view-container,
+body.dark-theme .product-card,
+body.dark-theme .retailer-card
+{
+    background-color: #303134;
+    color: #e8eaed;
+}
+
+body.dark-theme header
+{
+    background-color: #303134;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .search-box
+{
+    background-color: #303134;
+    border-color: #5f6368;
+}
+
+body.dark-theme .search-input
+{
+    color: white;
+    background-color: #303134;
+}
+
+body.dark-theme .nav-links ul li a
+{
+    color: #e8eaed;
+}
+
+body.dark-theme .nav-links ul li a:hover
+{
+    color: var(--primary-light);
+}
+
+body.dark-theme .product-title,
+body.dark-theme .product-description,
+body.dark-theme .retailer-name,
+body.dark-theme .retailer-price
+{
+    color: #e8eaed;
+}
+@media (max-width: 768px)
+{
+    .product-main {
+        flex-direction: column;
+    }
+
+    .product-gallery {
+        max-width: 100%;
+    }
+
+    .main-image {
+        height: 300px;
+    }
+} 	

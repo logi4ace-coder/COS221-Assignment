@@ -7,27 +7,16 @@ Original file is located at
     https://colab.research.google.com/drive/17qQg9oYzHmN34-AJ_2NaHh2_LJQelg-l
 """
 
-import random
 import json
+import random
 from faker import Faker
+import csv
 
 faker = Faker()
 
-
-PRODUCT_TYPE_RULES = {
-    "Dress": {"category": "tops", "materials": ["cotton", "linen", "polyester", "silk"]},
-    "Jeans": {"category": "bottoms", "materials": ["denim", "cotton", "wool"]},
-    "Shirt": {"category": "tops", "materials": ["cotton", "linen", "polyester"]},
-    "Sneakers": {"category": "shoes", "materials": ["leather", "canvas", "synthetic"]},
-    "Jacket": {"category": "tops", "materials": ["leather", "wool", "polyester"]},
-    "Trousers": {"category": "bottoms", "materials": ["cotton", "wool", "linen"]},
-    "Top": {"category": "tops", "materials": ["cotton", "polyester", "silk"]},
-    "Boots": {"category": "shoes", "materials": ["leather", "rubber", "synthetic"]},
-    "Hat": {"category": "accessories", "materials": ["wool", "cotton", "polyester"]},
-    "Scarf": {"category": "accessories", "materials": ["wool", "silk", "cotton"]},
-    "Watch": {"category": "accessories", "materials": ["metal", "plastic", "leather"]},
-}
-
+# Constants
+NUM_PRODUCTS = 850
+NUM_BRANDS = 50
 STYLE_TO_MATERIALS = {
     "casual": ["cotton", "denim", "canvas", "polyester", "synthetic"],
     "formal": ["silk", "wool", "leather", "metal"],
@@ -35,7 +24,6 @@ STYLE_TO_MATERIALS = {
     "trendy": ["leather", "silk", "metal", "linen"],
     "vintage": ["cotton", "wool", "linen", "silk"]
 }
-
 STYLE_TAGS = list(STYLE_TO_MATERIALS.keys())
 SEASONS = ["spring", "summer", "autumn", "winter", "all"]
 SUSTAINABILITY_TAGS = ["organic cotton", "recycled polyester", "vegan leather", "none"]
@@ -145,12 +133,38 @@ REVIEW_COMMENTS_HIGH = [
     "Great product, would buy again!",
     "My go-to item now, love it!"
 ]
+def load_styles(file_path):
+    styles_list = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if len(row) < 10 or not row[0].isdigit():
+                continue
+            styles_list.append({
+                "id": int(row[0]),
+                "gender": row[1].strip(),
+                "masterCategory": row[2].strip(),
+                "subCategory": row[3].strip(),
+                "articleType": row[4].strip(),
+                "baseColour": row[5].strip(),
+                "season": row[6].strip().lower(),
+                "year": row[7].strip(),
+                "usage": row[8].strip(),
+                "productDisplayName": row[9].strip(),
+            })
+    return styles_list
 
-def generate_brand(brand_id):
+def load_images(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip()]
+
+def generate_manager():
+    first = faker.first_name()
+    last = faker.last_name()
     return {
-        "brandId": brand_id,
-        "name": faker.company(),
-        "origin": faker.country()
+        "firstName": first,
+        "lastName": last,
+        "email": f"{first.lower()}.{last.lower()}{random.randint(1, 99)}@gmail.com"
     }
 
 def generate_stockist(store_id):
@@ -158,91 +172,109 @@ def generate_stockist(store_id):
         "storeId": store_id,
         "storeName": faker.company(),
         "price": round(random.uniform(20, 200), 2),
-        "stock": random.randint(1, 50)
+        "stock": random.randint(1, 50),
+        "manager": generate_manager()
     }
 
 def generate_review():
-    first_name = faker.first_name()
-    last_name = faker.last_name()
-    email = f"{first_name.lower()}.{last_name.lower()}{random.randint(1, 99)}@gmail.com"
+    first = faker.first_name()
+    last = faker.last_name()
     rating = random.randint(1, 5)
-    comment = random.choice(REVIEW_COMMENTS_LOW if rating <= 2 else REVIEW_COMMENTS_HIGH)
+    comment_pool = REVIEW_COMMENTS_LOW if rating <= 2 else REVIEW_COMMENTS_HIGH
     return {
-        "firstName": first_name,
-        "lastName": last_name,
-        "email": email,
+        "firstName": first,
+        "lastName": last,
+        "email": f"{first.lower()}.{last.lower()}{random.randint(1, 99)}@gmail.com",
         "rating": rating,
-        "comment": comment,
+        "comment": random.choice(comment_pool),
         "date": str(faker.date_this_year())
     }
 
-def generate_product(product_id, brand_id, store_id_start):
-    item_type = random.choice(list(PRODUCT_TYPE_RULES.keys()))
-    rules = PRODUCT_TYPE_RULES[item_type]
-    category = rules["category"]
+def get_sustainability_tag(material):
+    if "cotton" in material:
+        return "organic cotton"
+    elif "polyester" in material:
+        return "recycled polyester"
+    elif "leather" in material:
+        return "vegan leather"
+    else:
+        return "none"
 
-    # Pick style tags
+def pick_consistent_seasons():
+    return random.choice([("spring", "summer"), ("autumn", "winter"), ("all", "all")])
+
+def generate_product(i, brand, store_id_start, images_list, styles_list):
+    use_meta = i < len(styles_list)
+    if use_meta:
+        meta = styles_list[i]
+        category = meta["articleType"]
+        color = meta["baseColour"]
+        season = [meta["season"]] if meta["season"] in SEASONS else ["all"]
+        product_name = meta["productDisplayName"]
+        gender = meta["gender"]
+    else:
+        category = random.choice(["tops", "bottoms", "accessories", "shoes"])
+        color = faker.color_name()
+        season = list(pick_consistent_seasons())
+        product_name = f"{random.choice(['Classic', 'Modern', 'Elegant'])} {category.capitalize()}"
+        gender = random.choice(["Men", "Women", "Unisex"])
+
     style_tags = random.sample(STYLE_TAGS, 2)
-
-    # Filter materials based on both item type and style
-    style_materials = set()
-    for style in style_tags:
-        style_materials.update(STYLE_TO_MATERIALS.get(style, []))
-    valid_materials = list(style_materials & set(rules["materials"]))
-    material = random.choice(valid_materials) if valid_materials else random.choice(rules["materials"])
-
-    # Consistent season pairings
-    def pick_consistent_seasons():
-        options = [
-            ("spring", "summer"),
-            ("autumn", "winter"),
-            ("all", "all"),
-        ]
-        return random.choice(options)
-    season = list(pick_consistent_seasons())
-
-    # Sustainability tag logic
-    def get_sustainability_tag(material):
-        if "cotton" in material:
-            return "organic cotton"
-        elif "polyester" in material:
-            return "recycled polyester"
-        elif "leather" in material:
-            return "vegan leather"
-        else:
-            return "none"
-
+    possible_materials = list({material for tag in style_tags for material in STYLE_TO_MATERIALS.get(tag, [])})
+    material = random.choice(possible_materials) if possible_materials else "cotton"
+    description = f"This {material} item is a great addition to your {season[0]} wardrobe — perfect for {style_tags[0]} looks."
     sustainability = get_sustainability_tag(material)
-
-    # Generate brand and product name
-    brand = generate_brand(brand_id)
-    style_adjective = random.choice(["Classic", "Modern", "Elegant", "Casual", "Sporty"])
-    product_name = f"{style_adjective} {item_type}"
-    description = f"This {material} {item_type.lower()} is a great addition to your {season[0]}/{season[1]} wardrobe — perfect for {style_tags[0]} looks."
+    image_url = images_list[i % len(images_list)] if images_list else None
 
     return {
-        "productId": product_id,
+        "productId": i + 1,
         "name": product_name,
         "description": description,
         "category": category,
         "brand": brand,
-        "color": faker.color_name(),
+        "color": color,
         "material": material,
+        "gender": gender,
         "styleTags": style_tags,
         "season": season,
         "sustainability": sustainability,
-        "stockists": [generate_stockist(store_id_start + i) for i in range(random.randint(1, 3))],
+        "image": image_url.split(",")[1] if image_url and "," in image_url else None,
+        "currency": "USD",
+        "stockists": [generate_stockist(store_id_start + j) for j in range(random.randint(10, 15))],
         "reviews": [generate_review() for _ in range(random.randint(2, 5))]
     }
 
-num_products = 10000
-products = [generate_product(i, i, i * 10) for i in range(1, num_products + 1)]
+def main():
+    styles_file = "styles.txt"
+    images_file = "images.txt"
+    output_file = "productsApi.json"
+
+    styles_list = load_styles(styles_file)
+    
+
+    brands = [{
+        "brandId": i + 1,
+        "name": faker.unique.company(),
+        "origin": faker.country()
+    } for i in range(NUM_BRANDS)]
+
+    products = []
+    store_id_start = 1000
+    for i in range(NUM_PRODUCTS):
+        brand = random.choice(brands)
+        product = generate_product(i, brand, store_id_start, images_list, styles_list)
+        products.append(product)
+        store_id_start += 20
+
+    output_data = {
+        "brands": brands,
+        "products": products
+    }
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, indent=2)
 
 
-output_path = "productsApi.json"
-with open(output_path, "w") as f:
-    json.dump({"products": products}, f, indent=2)
-
-from google.colab import files
-files.download(output_path)
+if __name__ == "__main__":
+    main()
 

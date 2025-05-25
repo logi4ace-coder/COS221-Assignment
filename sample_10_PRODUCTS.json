@@ -1,0 +1,682 @@
+{
+  "products": [
+    {
+      "productId": 1,
+      "name": "Classic Sneakers",
+      "description": "This leather sneakers is a great addition to your all/all wardrobe \u2014 perfect for vintage looks.",
+      "category": "shoes",
+      "brand": {
+        "brandId": 1,
+        "name": "George Inc",
+        "origin": "Ireland"
+      },
+      "color": "LightSeaGreen",
+      "material": "leather",
+      "styleTags": [
+        "vintage",
+        "formal"
+      ],
+      "season": [
+        "all",
+        "all"
+      ],
+      "sustainability": "vegan leather",
+      "stockists": [
+        {
+          "storeId": 10,
+          "storeName": "Hall Ltd",
+          "price": 131.49,
+          "stock": 31
+        },
+        {
+          "storeId": 11,
+          "storeName": "Patel LLC",
+          "price": 73.2,
+          "stock": 33
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Craig",
+          "lastName": "Wilson",
+          "email": "craig.wilson15@gmail.com",
+          "rating": 4,
+          "comment": "Quick delivery and excellent packaging.",
+          "date": "2025-04-24"
+        },
+        {
+          "firstName": "Ryan",
+          "lastName": "Barker",
+          "email": "ryan.barker73@gmail.com",
+          "rating": 4,
+          "comment": "Love how soft and comfortable it is!",
+          "date": "2025-03-24"
+        },
+        {
+          "firstName": "Lauren",
+          "lastName": "Blevins",
+          "email": "lauren.blevins67@gmail.com",
+          "rating": 3,
+          "comment": "Super breathable fabric, perfect for summer.",
+          "date": "2025-02-14"
+        }
+      ]
+    },
+    {
+      "productId": 2,
+      "name": "Sporty Boots",
+      "description": "This leather boots is a great addition to your autumn/winter wardrobe \u2014 perfect for sporty looks.",
+      "category": "shoes",
+      "brand": {
+        "brandId": 2,
+        "name": "Wilson-Green",
+        "origin": "Andorra"
+      },
+      "color": "LightSteelBlue",
+      "material": "leather",
+      "styleTags": [
+        "sporty",
+        "formal"
+      ],
+      "season": [
+        "autumn",
+        "winter"
+      ],
+      "sustainability": "vegan leather",
+      "stockists": [
+        {
+          "storeId": 20,
+          "storeName": "Bridges, Willis and Burton",
+          "price": 190.6,
+          "stock": 45
+        },
+        {
+          "storeId": 21,
+          "storeName": "Farmer-Vance",
+          "price": 174.43,
+          "stock": 43
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Norma",
+          "lastName": "Dalton",
+          "email": "norma.dalton78@gmail.com",
+          "rating": 1,
+          "comment": "Doesn\u2019t hold its shape after wearing.",
+          "date": "2025-02-13"
+        },
+        {
+          "firstName": "Brittany",
+          "lastName": "Reed",
+          "email": "brittany.reed74@gmail.com",
+          "rating": 5,
+          "comment": "Fantastic quality for the price.",
+          "date": "2025-02-14"
+        },
+        {
+          "firstName": "Jo",
+          "lastName": "Koch",
+          "email": "jo.koch75@gmail.com",
+          "rating": 5,
+          "comment": "Soft, cozy, and great quality.",
+          "date": "2025-03-13"
+        },
+        {
+          "firstName": "Jason",
+          "lastName": "Phillips",
+          "email": "jason.phillips99@gmail.com",
+          "rating": 3,
+          "comment": "Super stylish and flattering.",
+          "date": "2025-02-27"
+        }
+      ]
+    },
+    {
+      "productId": 3,
+      "name": "Casual Top",
+      "description": "This silk top is a great addition to your spring/summer wardrobe \u2014 perfect for trendy looks.",
+      "category": "tops",
+      "brand": {
+        "brandId": 3,
+        "name": "Moreno-Martin",
+        "origin": "Bahrain"
+      },
+      "color": "PapayaWhip",
+      "material": "silk",
+      "styleTags": [
+        "trendy",
+        "formal"
+      ],
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "sustainability": "none",
+      "stockists": [
+        {
+          "storeId": 30,
+          "storeName": "Bennett-Espinoza",
+          "price": 128.26,
+          "stock": 33
+        },
+        {
+          "storeId": 31,
+          "storeName": "Wells-Rogers",
+          "price": 115.38,
+          "stock": 41
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Karen",
+          "lastName": "Manning",
+          "email": "karen.manning34@gmail.com",
+          "rating": 3,
+          "comment": "Super stylish and flattering.",
+          "date": "2025-03-15"
+        },
+        {
+          "firstName": "Kenneth",
+          "lastName": "Davis",
+          "email": "kenneth.davis9@gmail.com",
+          "rating": 5,
+          "comment": "Quick delivery and excellent packaging.",
+          "date": "2025-02-16"
+        },
+        {
+          "firstName": "Carla",
+          "lastName": "Wade",
+          "email": "carla.wade96@gmail.com",
+          "rating": 5,
+          "comment": "Such a fantastic purchase!",
+          "date": "2025-03-18"
+        },
+        {
+          "firstName": "Paul",
+          "lastName": "Smith",
+          "email": "paul.smith1@gmail.com",
+          "rating": 3,
+          "comment": "Super stylish and flattering.",
+          "date": "2025-03-16"
+        },
+        {
+          "firstName": "Vanessa",
+          "lastName": "Franklin",
+          "email": "vanessa.franklin73@gmail.com",
+          "rating": 3,
+          "comment": "Breathable and easy to style.",
+          "date": "2025-03-20"
+        }
+      ]
+    },
+    {
+      "productId": 4,
+      "name": "Modern Jeans",
+      "description": "This wool jeans is a great addition to your all/all wardrobe \u2014 perfect for sporty looks.",
+      "category": "bottoms",
+      "brand": {
+        "brandId": 4,
+        "name": "Hamilton, Holmes and Bradshaw",
+        "origin": "Bulgaria"
+      },
+      "color": "LightSeaGreen",
+      "material": "wool",
+      "styleTags": [
+        "sporty",
+        "formal"
+      ],
+      "season": [
+        "all",
+        "all"
+      ],
+      "sustainability": "none",
+      "stockists": [
+        {
+          "storeId": 40,
+          "storeName": "Pena-Johnson",
+          "price": 66.73,
+          "stock": 36
+        },
+        {
+          "storeId": 41,
+          "storeName": "Conner Group",
+          "price": 176.5,
+          "stock": 27
+        },
+        {
+          "storeId": 42,
+          "storeName": "Morris Group",
+          "price": 110.41,
+          "stock": 45
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Carrie",
+          "lastName": "Turner",
+          "email": "carrie.turner20@gmail.com",
+          "rating": 2,
+          "comment": "Would never buy from this brand again.",
+          "date": "2025-04-14"
+        },
+        {
+          "firstName": "Paul",
+          "lastName": "Frank",
+          "email": "paul.frank84@gmail.com",
+          "rating": 4,
+          "comment": "Such a fantastic purchase!",
+          "date": "2025-01-05"
+        },
+        {
+          "firstName": "Bobby",
+          "lastName": "Riley",
+          "email": "bobby.riley94@gmail.com",
+          "rating": 4,
+          "comment": "Extremely stylish and trendy!",
+          "date": "2025-02-21"
+        },
+        {
+          "firstName": "Tasha",
+          "lastName": "Russell",
+          "email": "tasha.russell88@gmail.com",
+          "rating": 5,
+          "comment": "Breathable and easy to style.",
+          "date": "2025-03-15"
+        }
+      ]
+    },
+    {
+      "productId": 5,
+      "name": "Elegant Shirt",
+      "description": "This polyester shirt is a great addition to your all/all wardrobe \u2014 perfect for casual looks.",
+      "category": "tops",
+      "brand": {
+        "brandId": 5,
+        "name": "Harris, King and Mckee",
+        "origin": "Nauru"
+      },
+      "color": "OldLace",
+      "material": "polyester",
+      "styleTags": [
+        "casual",
+        "sporty"
+      ],
+      "season": [
+        "all",
+        "all"
+      ],
+      "sustainability": "recycled polyester",
+      "stockists": [
+        {
+          "storeId": 50,
+          "storeName": "Johnson, Long and Woods",
+          "price": 38.65,
+          "stock": 24
+        },
+        {
+          "storeId": 51,
+          "storeName": "Haley and Sons",
+          "price": 163.22,
+          "stock": 11
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Brittany",
+          "lastName": "Johnson",
+          "email": "brittany.johnson41@gmail.com",
+          "rating": 3,
+          "comment": "Fits exactly as expected\u2014true to size!",
+          "date": "2025-04-28"
+        },
+        {
+          "firstName": "Erica",
+          "lastName": "Swanson",
+          "email": "erica.swanson49@gmail.com",
+          "rating": 1,
+          "comment": "Fabric tore after just a few wears.",
+          "date": "2025-02-20"
+        }
+      ]
+    },
+    {
+      "productId": 6,
+      "name": "Casual Hat",
+      "description": "This cotton hat is a great addition to your all/all wardrobe \u2014 perfect for casual looks.",
+      "category": "accessories",
+      "brand": {
+        "brandId": 6,
+        "name": "Davis-Harris",
+        "origin": "Somalia"
+      },
+      "color": "MediumSlateBlue",
+      "material": "cotton",
+      "styleTags": [
+        "casual",
+        "sporty"
+      ],
+      "season": [
+        "all",
+        "all"
+      ],
+      "sustainability": "organic cotton",
+      "stockists": [
+        {
+          "storeId": 60,
+          "storeName": "Ferrell-Gates",
+          "price": 182.97,
+          "stock": 18
+        },
+        {
+          "storeId": 61,
+          "storeName": "Hughes-Sharp",
+          "price": 175.42,
+          "stock": 15
+        },
+        {
+          "storeId": 62,
+          "storeName": "Wood-Lane",
+          "price": 77.79,
+          "stock": 40
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Joseph",
+          "lastName": "Hill",
+          "email": "joseph.hill58@gmail.com",
+          "rating": 1,
+          "comment": "Arrived late and wasn\u2019t worth the wait.",
+          "date": "2025-04-25"
+        },
+        {
+          "firstName": "David",
+          "lastName": "Blankenship",
+          "email": "david.blankenship85@gmail.com",
+          "rating": 5,
+          "comment": "Fantastic quality for the price.",
+          "date": "2025-03-22"
+        },
+        {
+          "firstName": "Kristen",
+          "lastName": "Manning",
+          "email": "kristen.manning63@gmail.com",
+          "rating": 4,
+          "comment": "Already planning to buy another one!",
+          "date": "2025-05-18"
+        },
+        {
+          "firstName": "Brian",
+          "lastName": "White",
+          "email": "brian.white68@gmail.com",
+          "rating": 3,
+          "comment": "Wearing it feels amazing!",
+          "date": "2025-02-16"
+        }
+      ]
+    },
+    {
+      "productId": 7,
+      "name": "Sporty Dress",
+      "description": "This cotton dress is a great addition to your spring/summer wardrobe \u2014 perfect for casual looks.",
+      "category": "tops",
+      "brand": {
+        "brandId": 7,
+        "name": "Cohen-Hernandez",
+        "origin": "Togo"
+      },
+      "color": "DarkSalmon",
+      "material": "cotton",
+      "styleTags": [
+        "casual",
+        "sporty"
+      ],
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "sustainability": "organic cotton",
+      "stockists": [
+        {
+          "storeId": 70,
+          "storeName": "George-Ortega",
+          "price": 108.1,
+          "stock": 23
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Allison",
+          "lastName": "Perez",
+          "email": "allison.perez12@gmail.com",
+          "rating": 5,
+          "comment": "Breathable and easy to style.",
+          "date": "2025-01-10"
+        },
+        {
+          "firstName": "Erin",
+          "lastName": "West",
+          "email": "erin.west61@gmail.com",
+          "rating": 4,
+          "comment": "Really happy with my purchase.",
+          "date": "2025-05-16"
+        },
+        {
+          "firstName": "Jon",
+          "lastName": "Collins",
+          "email": "jon.collins88@gmail.com",
+          "rating": 2,
+          "comment": "The material looks like it would fall apart.",
+          "date": "2025-03-31"
+        },
+        {
+          "firstName": "Louis",
+          "lastName": "Hill",
+          "email": "louis.hill19@gmail.com",
+          "rating": 2,
+          "comment": "Shrunk even after following washing instructions.",
+          "date": "2025-02-28"
+        },
+        {
+          "firstName": "Bethany",
+          "lastName": "Cruz",
+          "email": "bethany.cruz23@gmail.com",
+          "rating": 4,
+          "comment": "Perfect for any occasion!",
+          "date": "2025-04-22"
+        }
+      ]
+    },
+    {
+      "productId": 8,
+      "name": "Modern Sneakers",
+      "description": "This canvas sneakers is a great addition to your spring/summer wardrobe \u2014 perfect for vintage looks.",
+      "category": "shoes",
+      "brand": {
+        "brandId": 8,
+        "name": "Sullivan and Sons",
+        "origin": "Czech Republic"
+      },
+      "color": "DarkOliveGreen",
+      "material": "canvas",
+      "styleTags": [
+        "vintage",
+        "sporty"
+      ],
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "sustainability": "none",
+      "stockists": [
+        {
+          "storeId": 80,
+          "storeName": "Solis, Chen and Flores",
+          "price": 41.09,
+          "stock": 11
+        },
+        {
+          "storeId": 81,
+          "storeName": "Miranda, Smith and Garcia",
+          "price": 171.82,
+          "stock": 23
+        },
+        {
+          "storeId": 82,
+          "storeName": "Wilson-Thompson",
+          "price": 79.82,
+          "stock": 31
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Andrea",
+          "lastName": "Moon",
+          "email": "andrea.moon92@gmail.com",
+          "rating": 4,
+          "comment": "Really happy with my purchase.",
+          "date": "2025-05-16"
+        },
+        {
+          "firstName": "Christopher",
+          "lastName": "Campbell",
+          "email": "christopher.campbell98@gmail.com",
+          "rating": 1,
+          "comment": "Arrived late and wasn\u2019t worth the wait.",
+          "date": "2025-04-26"
+        },
+        {
+          "firstName": "Crystal",
+          "lastName": "Graham",
+          "email": "crystal.graham97@gmail.com",
+          "rating": 2,
+          "comment": "No stretch, very restrictive.",
+          "date": "2025-03-19"
+        },
+        {
+          "firstName": "Christine",
+          "lastName": "Brooks",
+          "email": "christine.brooks14@gmail.com",
+          "rating": 4,
+          "comment": "Fits exactly as expected\u2014true to size!",
+          "date": "2025-01-22"
+        }
+      ]
+    },
+    {
+      "productId": 9,
+      "name": "Modern Jacket",
+      "description": "This leather jacket is a great addition to your all/all wardrobe \u2014 perfect for trendy looks.",
+      "category": "tops",
+      "brand": {
+        "brandId": 9,
+        "name": "Townsend LLC",
+        "origin": "Haiti"
+      },
+      "color": "LightSalmon",
+      "material": "leather",
+      "styleTags": [
+        "trendy",
+        "sporty"
+      ],
+      "season": [
+        "all",
+        "all"
+      ],
+      "sustainability": "vegan leather",
+      "stockists": [
+        {
+          "storeId": 90,
+          "storeName": "Jones Group",
+          "price": 120.99,
+          "stock": 20
+        },
+        {
+          "storeId": 91,
+          "storeName": "Smith-Johnston",
+          "price": 105.55,
+          "stock": 2
+        },
+        {
+          "storeId": 92,
+          "storeName": "Leon LLC",
+          "price": 187.94,
+          "stock": 26
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Carolyn",
+          "lastName": "Pearson",
+          "email": "carolyn.pearson52@gmail.com",
+          "rating": 4,
+          "comment": "Fabric feels premium and durable.",
+          "date": "2025-04-30"
+        },
+        {
+          "firstName": "Robert",
+          "lastName": "Anderson",
+          "email": "robert.anderson7@gmail.com",
+          "rating": 5,
+          "comment": "I wear this all the time now.",
+          "date": "2025-03-18"
+        }
+      ]
+    },
+    {
+      "productId": 10,
+      "name": "Classic Shirt",
+      "description": "This linen shirt is a great addition to your spring/summer wardrobe \u2014 perfect for vintage looks.",
+      "category": "tops",
+      "brand": {
+        "brandId": 10,
+        "name": "Reese PLC",
+        "origin": "Netherlands Antilles"
+      },
+      "color": "DarkOrange",
+      "material": "linen",
+      "styleTags": [
+        "vintage",
+        "formal"
+      ],
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "sustainability": "none",
+      "stockists": [
+        {
+          "storeId": 100,
+          "storeName": "Robertson, Cummings and Lewis",
+          "price": 25.32,
+          "stock": 41
+        },
+        {
+          "storeId": 101,
+          "storeName": "Harris, Robinson and Brown",
+          "price": 90.7,
+          "stock": 50
+        }
+      ],
+      "reviews": [
+        {
+          "firstName": "Jacob",
+          "lastName": "Alvarado",
+          "email": "jacob.alvarado87@gmail.com",
+          "rating": 1,
+          "comment": "Fabric is scratchy and uncomfortable.",
+          "date": "2025-03-08"
+        },
+        {
+          "firstName": "Jorge",
+          "lastName": "Leblanc",
+          "email": "jorge.leblanc83@gmail.com",
+          "rating": 5,
+          "comment": "Wearing it feels amazing!",
+          "date": "2025-05-11"
+        }
+      ]
+    }
+  ]
+}

@@ -102,19 +102,6 @@ CREATE TABLE Wishlists (
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
-CREATE TABLE UserPreferences (
-    Id INT(11) PRIMARY KEY,
-    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UpdatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    Theme ENUM('light', 'dark') NOT NULL DEFAULT 'light',
-    FilterPrice VARCHAR(50) NOT NULL,
-    FilterSort ENUM('price_asc', 'price_desc', 'rating_desc', 'rating_asc') NOT NULL,
-    FilterBrand VARCHAR(100) NOT NULL,
-    FilterCurrency VARCHAR(10) NOT NULL,
-    UserID INT(11) NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    INDEX (UserID)
-);
 
 CREATE TABLE PriceAlerts (
     UserID INT(11) NOT NULL,

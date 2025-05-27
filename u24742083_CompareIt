@@ -11227,18 +11227,6 @@ INSERT INTO `Tags` (`TagID`, `TagText`) VALUES
 -- Table structure for table `UserPreferences`
 --
 
-CREATE TABLE `UserPreferences` (
-  `Id` int(11) NOT NULL,
-  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Theme` enum('light','dark') NOT NULL DEFAULT 'light',
-  `FilterPrice` varchar(50) NOT NULL,
-  `FilterSort` enum('price_asc','price_desc','rating_desc','rating_asc') NOT NULL,
-  `FilterBrand` varchar(100) NOT NULL,
-  `FilterCurrency` varchar(10) NOT NULL,
-  `UserID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 -- --------------------------------------------------------
 
 --
@@ -17666,13 +17654,6 @@ ALTER TABLE `Tags`
   ADD UNIQUE KEY `TagText` (`TagText`);
 
 --
--- Indexes for table `UserPreferences`
---
-ALTER TABLE `UserPreferences`
-  ADD PRIMARY KEY (`Id`),
-  ADD UNIQUE KEY `UserID` (`UserID`);
-
---
 -- Indexes for table `Users`
 --
 ALTER TABLE `Users`
@@ -17731,8 +17712,6 @@ ALTER TABLE `Tags`
 --
 -- AUTO_INCREMENT for table `UserPreferences`
 --
-ALTER TABLE `UserPreferences`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Users`
@@ -17784,11 +17763,6 @@ ALTER TABLE `Reviews`
   ADD CONSTRAINT `Reviews_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE CASCADE,
   ADD CONSTRAINT `Reviews_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `Products` (`ProductID`) ON DELETE CASCADE;
 
---
--- Constraints for table `UserPreferences`
---
-ALTER TABLE `UserPreferences`
-  ADD CONSTRAINT `fk_preferences_user` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `Wishlists`

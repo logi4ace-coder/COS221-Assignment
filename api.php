@@ -1,315 +1,424 @@
-<?php
-
-session_start();
-
-require_once("COS221/Ass5/php/config.php"); 
-
-class UserAPI {
-
-    private $connect;
-    private static $instance = null;
-
-    private function __construct($db_connection) {
-        $this->connect = $db_connection;
-        error_log("UserAPI instance created.");
-    }
-
-    public static function getter($db_connection = null) {
-        error_log("UserAPI::getter() called.");
-        if (self::$instance === null) {
-            if ($db_connection === null) {
-                throw new Exception('Database connection was not made.');
-            }
-            self::$instance = new UserAPI($db_connection);
-        }
-        return self::$instance;
-    }
-
-    public function registerUser($data) {
-        error_log("registerUser called with: " . json_encode($data));
-
-        $missing_data = [];
-        $required_fields = ['type', 'name', 'surname', 'email', 'password', 'user_type'];
-
-        foreach ($required_fields as $parameter) {
-            if (empty($data[$parameter])) {
-                $missing_data[] = $parameter;
-            }
-        }
-
-        if (!empty($missing_data)) {
-            error_log("Missing fields: " . implode(", ", $missing_data));
-            echo $this->httpCodes("<br>Missing fields: " . implode(", ", $missing_data));
-            return;
-        }
-
-        if ($data['type'] !== 'Register') {
-            error_log("Invalid type parameter: " . $data['type']);
-            return $this->httpCodes("Invalid request type");
-        }
-
-        $name = trim($data['name']);
-        $surname = trim($data['surname']);
-        $email = trim($data['email']);
-        $password = $data['password'];
-        $user_type = $data['user_type'];
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            error_log("Invalid email: $email");
-            return $this->httpCodes("Invalid email format");
-        }
-
-        $password_regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/";
-        if (!preg_match($password_regex, $password)) {
-            error_log("Password wrong!");
-            return $this->httpCodes("Password must be at least 8 characters long, contain upper and lowercase letters, at least one digit, and one special character.");
-        }
-
-        if ($this->emailDuplicationCheck($email)) {
-            error_log("Email already registered: $email");
-            return $this->httpCodes("Email already registered. Try another one.");
-        }
-
-        $salt1 = bin2hex(random_bytes(16));
-        $salt2 = bin2hex(random_bytes(8));
-        $hashed_password = password_hash($salt2 . $salt1 . $password, PASSWORD_ARGON2ID);
-        $api_key = bin2hex(random_bytes(16));
-
-        if ($this->insertUser($name, $surname, $email, $hashed_password, $user_type, $api_key, $salt1, $salt2)) {
-            error_log("User successfully inserted into the database: $email");
-
-            $query = "INSERT INTO Themes (api_key) values (?)";
-            $stmt = $this->connect->prepare($query);
-            $stmt->bind_param("s", $api_key);
-            $stmt->execute();
-            $stmt->close();
-
-            return $this->successJson($api_key);
-        } else {
-            error_log("Failed to insert user: $email");
-            return $this->httpCodes("Error inserting user {$name} into database");
-        }
-    }
-
-    private function emailDuplicationCheck($email) {
-        error_log("Checking if email: $email already exists...");
-
-        $stmt = $this->connect->prepare("SELECT UserID FROM Users WHERE Email = ?");
-        if ($stmt === false) {
-            error_log("SQL prepare statement error: " . $this->connect->error);
-            return false;
-        }
-
-        $stmt->bind_param("s", $email);
-        if (!$stmt->execute()) {
-            error_log("SQL execute error: " . $stmt->error);
-            $stmt->close();
-            return false;
-        }
-
-        $stmt->store_result();
-        $exists = $stmt->num_rows > 0;
-        $stmt->close();
-
-        return $exists;
-    }
-
-    private function insertUser($name, $surname, $email, $hashed_password, $user_type, $api_key, $salt1, $salt2) {
-        error_log("Inserting user into DB: $email");
-
-        $stmt = $this->connect->prepare("
-            INSERT INTO Users 
-            (FirstName, LastName, Email, PasswordHash, UserType, api_key, salt1, salt2)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        if ($stmt === false) {
-            error_log("SQL prepare statement error: " . $this->connect->error);
-            return false;
-        }
-
-        $stmt->bind_param("ssssssss", $name, $surname, $email, $hashed_password, $user_type, $api_key, $salt1, $salt2);
-        $result = $stmt->execute();
-
-        if (!$result) {
-            error_log("User insert failed: " . $stmt->error);
-        }
-
-        $stmt->close();
-        return $result;
-    }
-
-    private function successJson($api_key) {
-        return json_encode([
-            "status" => "success",
-            "timestamp" => round(time()),
-            "data" => ["apikey" => $api_key]
-        ]);
-    }
-
-    private function httpCodes($message) {
-        http_response_code(400);
-        return json_encode([
-            "status" => "error",
-            "timestamp" => time(),
-            "message" => $message
-        ]);
-    }
-
-    private function respondError($message) {
-        echo json_encode(['status' => 'error', 'message' => $message]);
-        $_SESSION['errors'] = ['validation' => [$message]];
-        header("Location: COS221/Assignment/../login.php");
-        exit;
-    }
-
-    public function loginUser($data) {
-        $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-        $secretKey = "";
-        $url = "https://www.google.com/recaptcha/api/siteverify";
-
-        $recaptchaData = [
-            'secret' => $secretKey,
-            'response' => $recaptchaResponse,
-            'remoteip' => $_SERVER['REMOTE_ADDR']
-        ];
-        $options = [
-            'http' => [
-                'method' => 'POST',
-                'content' => http_build_query($recaptchaData),
-                'header' => "Content-Type: application/x-www-form-urlencoded\r\n"
-            ]
-        ];
-        $context = stream_context_create($options);
-        $response = file_get_contents($url, false, $context);
-        $responseKeys = json_decode($response, true);
-
-        if (intval($responseKeys["success"] ?? 0) !== 1) {
-            return $this->respondError("reCAPTCHA verification failed, please try again.");
-        }
-
-        $email = trim($data['email'] ?? '');
-        $password = $data['password'] ?? '';
-
-        $missing = [];
-        $errors = [];
-
-        if (empty($email)) {
-            $missing[] = 'email';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Invalid email format';
-        }
-
-        if (empty($password)) {
-            $missing[] = 'password';
-        } else {
-            $password_regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/";
-            if (!preg_match($password_regex, $password)) {
-                $errors['password'] = "Password must be at least 8 characters, include upper/lowercase, number, and special char.";
-            }
-        }
-
-        if (!empty($missing) || !empty($errors)) {
-            $_SESSION['form-input'] = ['email' => $email];
-            $_SESSION['errors'] = ['missing' => $missing, 'validation' => $errors];
-            return $this->respondError("Missing or invalid fields.");
-        }
-
-        $stmt = $this->connect->prepare("SELECT UserID FROM Users WHERE Email=?");
-        if (!$stmt) return $this->respondError("Database error: failed to prepare (user lookup)");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows === 0) return $this->respondError("Email not found. Please register.");
-        $stmt->bind_result($userId);
-        $stmt->fetch();
-        $stmt->close();
-
-        $stmt = $this->connect->prepare("SELECT salt1, salt2, PasswordHash FROM Users WHERE UserID=?");
-        if (!$stmt) return $this->respondError("Database error: failed to prepare (salt/password lookup)");
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows === 0) return $this->respondError("Account security information missing.");
-        $stmt->bind_result($salt1, $salt2, $hashedPassword);
-        $stmt->fetch();
-        $stmt->close();
-
-        $reconstructed = $salt2 . $salt1 . $password;
-        if (!password_verify($reconstructed, $hashedPassword)) {
-            return $this->respondError("Incorrect password.");
-        }
-
-        $stmt = $this->connect->prepare("SELECT api_key, UserType FROM Users WHERE Email=?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($apiKey, $userType);
-        $stmt->fetch();
-        $stmt->close();
-
-        $_SESSION['api_key'] = $apiKey;
-        header("Location: COS221/Assignment/../index.php");
-        exit;
-    }
+:root {
+    --primary-light: #42ff33;
+    --bg-light: rgb(255, 245, 247);
+    --bg-dark: #1A1A24;
+    --text-light: rgb(65, 81, 97);
+    --text-dark: #E0E0E0;
+    --bg-white: white;
+    --border-color: #e0e0e0;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-	$NON_POST = "Invalid Request method {$_SERVER['REQUEST_METHOD']}";
-
-	error_log($NON_POST);
-	http_response_code(405);
-	echo json_encode(["status" => "error", "message" => $NON_POST]);
-
-	exit;
+/* Base Styles */
+body {
+    font-family: 'Barlow', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-else{
+/* Main Container */
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex: 1;
+}
 
-    $body = file_get_contents("php://input");
-    $IS_JSON = $_SERVER['CONTENT_TYPE'] ?? '';
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--bg-white);
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
 
-    if (strpos($IS_JSON, 'application/json') !== false) {
+.header-container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
 
-        $data = json_decode(file_get_contents('php://input'), true);
-        error_log("Api info recived: " . json_encode($data));
+.company-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-    } 
-    else {
+.company-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
 
-        $data = $_POST;
+.company-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin: 0;
+    white-space: nowrap;
+}
 
+/* Navigation */
+.nav-links {
+    display: flex;
+    margin-left: auto;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    color: var(--text-light);
+    transition: color 0.2s;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.nav-links ul li a:hover {
+    color: var(--primary-light);
+}
+
+/* Theme Selector */
+.theme-select {
+    margin-left: 30px;
+}
+
+.theme-select button {
+    background-color: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Product Container */
+#product-container {
+    width: 100%;
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 100px;
+    margin-bottom: 30px;
+    padding: 25px;
+}
+
+/* Product Image */
+#product-container img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    margin: 0 auto 25px;
+    display: block;
+    border-radius: 8px;
+    background-color: var(--bg-light);
+}
+
+/* Product Details */
+#product-container h2 {
+    font-size: 28px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.product-meta p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+.product-meta strong {
+    font-weight: 600;
+}
+
+.product-description {
+    line-height: 1.6;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Listings Section */
+.listings-section {
+    margin-top: 40px;
+}
+
+.listings-section h3 {
+    font-size: 22px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.listing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.listing-info {
+    flex: 1;
+}
+
+.listing-retailer {
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.listing-price {
+    font-weight: 700;
+    color: var(--primary-light);
+    font-size: 18px;
+}
+
+.visit-retailer {
+    background-color: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Review Section */
+.review-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.review-section h3 {
+    font-size: 22px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Review Form */
+#review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#review-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+#star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+#star-rating span {
+    font-size: 28px;
+    color: #f59e0b;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#star-rating span:hover {
+    transform: scale(1.1);
+}
+
+#review_text {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-family: 'Barlow', sans-serif;
+}
+
+#review-form button {
+    display: block;
+    width: 100%;
+    background-color: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Reviews Content */
+#reviews-content {
+    margin-top: 30px;
+}
+
+.review {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: var(--bg-white);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.review-rating {
+    margin-bottom: 15px;
+}
+
+.review-text {
+    line-height: 1.6;
+}
+
+/* Loader */
+.loader-img {
+    display: block;
+    margin: 30px auto;
+    width: 50px;
+    height: 50px;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-white: var(--bg-dark);
+    --bg-light: var(--bg-dark);
+    --text-light: var(--text-dark);
+    --border-color: #444;
+}
+
+body.dark-theme {
+    background-color: var(--bg-dark);
+}
+
+body.dark-theme header,
+body.dark-theme #product-container,
+body.dark-theme #review-form,
+body.dark-theme .review {
+    background-color: var(--bg-dark);
+    border-color: #555;
+}
+
+body.dark-theme .company-name,
+body.dark-theme .nav-links ul li a {
+    color: var(--text-dark);
+}
+
+body.dark-theme #review_text {
+    background-color: #303134;
+    color: var(--text-dark);
+    border-color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 0 15px;
     }
-        error_log("Info recieed: " . json_encode($data));
-
-    if (!$data || !isset($data['type'])) {
-        echo json_encode(["status" => "error", "message" => "Missing or invalid 'type' {$data['type']}"]);
-        exit;
-
-    }
-
-    $type = $data['type'];
-
-
-
-    error_log("Request Body: " . $body);
-    $userAPI = UserAPI::getter($connect);
-
     
-    switch ($type) {
-
-    case 'Register':
-
-        echo $userAPI->registerUser($data);
-
-        break;
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 0;
+    }
     
-    case 'Login':
-        echo $userAPI->loginUser($data);    
-        break;
+    .company-brand {
+        position: static;
+        transform: none;
+        margin-bottom: 10px;
+    }
+    
+    .nav-links {
+        margin: 15px 0;
+    }
+    
+    .nav-links ul {
+        gap: 15px;
+    }
+    
+    .theme-select {
+        margin-left: 0;
+    }
+    
+    #product-container {
+        margin-top: 150px;
+        padding: 20px;
+    }
+    
+    .listing-item {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .visit-retailer {
+        width: 100%;
+    }
+}
 
-   
+@media (max-width: 480px) {
+    .company-brand {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-links ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    #product-container {
+        margin-top: 180px;
+    }
 }
- 
-}
-?>
